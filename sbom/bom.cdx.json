@@ -1,0 +1,14 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-09-04T20:26:52.501606Z",
+    "component": {
+      "type": "application",
+      "name": "NeonStoreSystem",
+      "version": "1.0.0"
+    }
+  },
+  "components": []
+}

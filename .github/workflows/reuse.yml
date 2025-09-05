@@ -1,0 +1,15 @@
+name: reuse-compliance
+true:
+  pull_request: null
+  push:
+    branches:
+    - main
+jobs:
+  reuse:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: fsfe/reuse-action@v3
+    continue-on-error: true
+'on':
+  workflow_dispatch: null

@@ -1,0 +1,17 @@
+name: devskim
+true:
+  pull_request: null
+  push:
+    branches:
+    - main
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: microsoft/DevSkim-Action@v1
+      with:
+        directory-to-scan: .
+    continue-on-error: true
+'on':
+  workflow_dispatch: null

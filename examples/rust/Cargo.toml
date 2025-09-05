@@ -1,0 +1,13 @@
+\
+[package]
+name = "neonstore-ffi-demo"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+
+[build-dependencies]
+
+[lib]
+name = "neonstore_ffi_demo"
+path = "src/lib.rs"

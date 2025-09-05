@@ -1,0 +1,25 @@
+name: trivy-scan
+true:
+  workflow_dispatch: null
+  push:
+    branches:
+    - main
+jobs:
+  trivy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: docker/setup-qemu-action@v3
+    - uses: docker/setup-buildx-action@v3
+    - name: Build image
+      run: docker build -t neonstore:test .
+    - uses: aquasecurity/trivy-action@0.28.0
+      with:
+        image-ref: neonstore:test
+        format: table
+        exit-code: '0'
+        ignore-unfixed: true
+        vuln-type: os,library
+    continue-on-error: true
+'on':
+  workflow_dispatch: null

@@ -1,0 +1,5 @@
+version = 1
+[spec]
+spdx = "SPDX-2.2"
+[lint]
+enabled = true

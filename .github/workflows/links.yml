@@ -1,0 +1,17 @@
+name: links
+true:
+  pull_request: null
+  push:
+    branches:
+    - main
+jobs:
+  lychee:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: lycheeverse/lychee-action@v1
+      with:
+        args: --verbose --no-progress --exclude-mail -r 2 .
+    continue-on-error: true
+'on':
+  workflow_dispatch: null

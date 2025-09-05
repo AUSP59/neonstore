@@ -1,0 +1,63 @@
+name: release-build
+true:
+  push:
+    tags:
+    - v*.*.*
+permissions:
+  contents: write
+jobs:
+  build-and-upload:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os:
+        - ubuntu-latest
+        - macos-latest
+        - windows-latest
+        build_type:
+        - Release
+    steps:
+    - uses: actions/checkout@v4
+    - name: Select CPack generators
+      id: gens
+      run: "if [ \"${{ runner.os }}\" = \"Linux\" ]; then\n  echo \"GENS=TGZ;ZIP;DEB;RPM\"\
+        \ >> $GITHUB_OUTPUT\nelif [ \"${{ runner.os }}\" = \"Windows\" ]; then\n \
+        \ echo \"GENS=ZIP;NSIS\" >> $GITHUB_OUTPUT\nelse\n  echo \"GENS=TGZ;ZIP\"\
+        \ >> $GITHUB_OUTPUT\nfi\n"
+    - name: Configure
+      run: cmake -S . -B build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DCPACK_GENERATOR='${{
+        steps.gens.outputs.GENS }}' -DENABLE_SQLITE=OFF
+    - name: Build
+      run: cmake --build build --parallel
+    - name: CPack
+      run: 'cmake --build build --target package
+
+        echo "Artifacts:" && ls -l build/* || true
+
+        '
+    - name: Upload to GitHub Release
+      uses: softprops/action-gh-release@v2
+      with:
+        files: 'build/*.zip
+
+          build/*.tar.gz
+
+          build/*.deb
+
+          build/*.rpm
+
+          build/*.exe
+
+          '
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    continue-on-error: true
+'on':
+  push:
+    branches:
+    - main
+    - master
+  pull_request:
+    branches:
+    - main
+    - master

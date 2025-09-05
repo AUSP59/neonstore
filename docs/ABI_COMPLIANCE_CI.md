@@ -1,0 +1,2 @@
+# ABI Compliance in CI
+The `abi.yml` workflow generates an ABI dump for the shared library using `abi-dumper` and compares it with a stored baseline (if present). To create a baseline, upload `abi/current.abi` from a release build as `abi/baseline.abi` before the next run. Failures indicate an ABI break (requires major version bump or symbol review).

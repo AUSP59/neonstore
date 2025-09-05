@@ -1,0 +1,36 @@
+name: ort
+true:
+  workflow_dispatch: null
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Download ORT
+      run: 'curl -sLO https://github.com/oss-review-toolkit/ort/releases/latest/download/ort-linux-x86_64.zip
+
+        sudo apt-get update && sudo apt-get install -y unzip openjdk-17-jre-headless
+
+        unzip -q ort-linux-x86_64.zip -d ort
+
+        '
+    - name: Run ORT Analyzer (SPDX output)
+      run: './ort/bin/ort --version
+
+        ./ort/bin/ort analyze -i . -o ort-out --format SPDX || true
+
+        '
+    - uses: actions/upload-artifact@v4
+      with:
+        name: ort-out
+        path: ort-out
+    continue-on-error: true
+'on':
+  push:
+    branches:
+    - main
+    - master
+  pull_request:
+    branches:
+    - main
+    - master

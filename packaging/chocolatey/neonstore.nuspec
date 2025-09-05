@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
+  <metadata>
+    <id>neonstore</id>
+    <version>2.23.0</version>
+    <title>NeonStore</title>
+    <authors>NeonStore Authors</authors>
+    <owners>NeonStore</owners>
+    <licenseUrl>https://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
+    <projectUrl>https://example.org/neonstore</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Store management CLI and C++ library</description>
+    <tags>inventory orders cli</tags>
+  </metadata>
+</package>

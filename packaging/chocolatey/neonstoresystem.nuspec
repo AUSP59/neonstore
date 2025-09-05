@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>neonstoresystem</id>
+    <version>1.0.0</version>
+    <title>NeonStoreSystem</title>
+    <authors>NeonStoreSystem Authors</authors>
+    <licenseUrl>https://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
+    <projectUrl>https://github.com/YOUR_ORG/neonstoresystem</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>World-class C++ store management CLI and library</description>
+    <tags>c++ cli inventory</tags>
+  </metadata>
+  <files>
+    <file src="tools\**" target="tools" />
+  </files>
+</package>

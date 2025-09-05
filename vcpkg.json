@@ -1,0 +1,7 @@
+{
+  "name": "neonstoresystem",
+  "version-string": "1.0.0",
+  "description": "World-class C++ store management library and CLI",
+  "license": "Apache-2.0",
+  "dependencies": []
+}

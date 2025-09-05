@@ -1,0 +1,6 @@
+{
+  "name": "NeonStoreSystem Dev",
+  "image": "mcr.microsoft.com/devcontainers/cpp:ubuntu",
+  "features": {},
+  "postCreateCommand": "sudo apt-get update && sudo apt-get install -y cmake ninja-build clang lcov sqlite3 libsqlite3-dev doxygen graphviz && pip3 install gcovr"
+}

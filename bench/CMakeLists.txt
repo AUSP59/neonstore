@@ -1,0 +1,3 @@
+add_executable(bench_inventory bench_inventory.cpp)
+target_link_libraries(bench_inventory PRIVATE neonstore_lib)
+add_custom_target(bench COMMAND bench_inventory)

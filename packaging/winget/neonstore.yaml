@@ -1,0 +1,12 @@
+# Sample winget manifest (fill URLs/SHA before publishing)
+PackageIdentifier: NeonStore.NeonStoreSystem
+PackageVersion: 2.4.0
+PackageLocale: en-US
+Publisher: NeonStore Contributors
+PackageName: NeonStoreSystem
+License: Apache-2.0
+Installers:
+  - Architecture: x64
+    InstallerType: zip
+    InstallerUrl: https://example.org/neonstore-2.4.0-windows.zip
+    InstallerSha256: REPLACE_ME

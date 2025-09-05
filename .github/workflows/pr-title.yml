@@ -1,0 +1,24 @@
+name: pr-title
+true:
+  pull_request:
+    types:
+    - opened
+    - edited
+    - synchronize
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: aslafy-z/conventional-pr-title-action@v3
+      with:
+        preset: conventional-changelog-angular
+    continue-on-error: true
+'on':
+  push:
+    branches:
+    - main
+    - master
+  pull_request:
+    branches:
+    - main
+    - master

@@ -1,0 +1,5 @@
+[Unit]
+Description=NeonStore nightly backup
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/neonstore backup --dir /var/lib/neonstore --out /var/backups/neonstore --keep 7

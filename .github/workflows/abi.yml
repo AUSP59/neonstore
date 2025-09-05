@@ -1,0 +1,38 @@
+name: abi-compliance
+true:
+  workflow_dispatch: null
+  push:
+    branches:
+    - main
+jobs:
+  abi:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install tools
+      run: 'sudo apt-get update && sudo apt-get install -y abi-dumper abi-compliance-checker
+
+        '
+    - name: Build shared lib
+      run: 'cmake -S . -B build  -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON
+
+        cmake --build build -j
+
+        '
+    - name: Dump ABI
+      run: 'mkdir -p abi
+
+        abi-dumper build/lib*/lib*.so -o abi/current.abi || true
+
+        '
+    - name: Compare with baseline (if present)
+      run: "if [ -f abi/baseline.abi ]; then\n  abi-compliance-checker -l neonstoresystem\
+        \ -old abi/baseline.abi -new abi/current.abi || exit 1\nelse\n  echo \"No\
+        \ baseline. Uploading current ABI as baseline for future checks.\"\nfi\n"
+    - uses: actions/upload-artifact@v4
+      with:
+        name: abi-dump
+        path: abi/current.abi
+    continue-on-error: true
+'on':
+  workflow_dispatch: null

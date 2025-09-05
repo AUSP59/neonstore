@@ -1,0 +1,4 @@
+# Default owners
+*       @neonstore/maintainers
+docs/*  @neonstore/docs
+src/*   @neonstore/engineers

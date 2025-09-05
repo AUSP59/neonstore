@@ -1,0 +1,19 @@
+{
+  "id": "org.neonstore.CLI",
+  "runtime": "org.freedesktop.Platform",
+  "runtime-version": "23.08",
+  "sdk": "org.freedesktop.Sdk",
+  "command": "neonstore",
+  "modules": [
+    {
+      "name": "neonstoresystem",
+      "buildsystem": "cmake-ninja",
+      "sources": [
+        {
+          "type": "dir",
+          "path": "."
+        }
+      ]
+    }
+  ]
+}

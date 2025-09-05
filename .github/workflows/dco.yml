@@ -1,0 +1,19 @@
+name: DCO
+true:
+  pull_request: null
+jobs:
+  dco:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: wow-actions/pr-signoff-checker@v1
+    continue-on-error: true
+'on':
+  push:
+    branches:
+    - main
+    - master
+  pull_request:
+    branches:
+    - main
+    - master

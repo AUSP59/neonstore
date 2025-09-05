@@ -1,0 +1,1 @@
+complete -c neonstore -f -n "__fish_use_subcommand" -a "help version verify-all products orders search csv policy merge vdiff normalize backup snapshot report health fuzz lint audit ledger config sbom doctor generate dedupe seal analytics"

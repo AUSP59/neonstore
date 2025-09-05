@@ -1,0 +1,4 @@
+*       @example-maintainer
+/docs/  @example-maintainer @example-security
+/src/   @example-maintainer
+/include/ @example-maintainer

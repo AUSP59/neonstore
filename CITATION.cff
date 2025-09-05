@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+title: "NeonStore"
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: "NeonStore"
+    given-names: "Team"
+version: "2.26.0"
+date-released: "2025-09-04"
+license: "Apache-2.0"

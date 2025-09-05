@@ -1,0 +1,28 @@
+\
+.TH neonstore 1 "September 2025" "NeonStore" "User Commands"
+.SH NAME
+neonstore \- deterministic, local-first store dataset engine
+.SH SYNOPSIS
+.B neonstore
+[\fICOMMAND\fR] [\fIOPTIONS\fR]
+.SH DESCRIPTION
+NeonStore manages products and orders stored in CSV with atomic writes,
+integrity sidecars, policies, backups, snapshots and auditing.
+See the project README for detailed usage and examples.
+.SH COMMANDS
+.TP
+.B analytics summary
+Emit dataset KPIs and top products (JSON by default).
+.TP
+.B products set-price \-\-id ID \-\-price NUM
+Update product price atomically.
+.TP
+.B products set-stock \-\-id ID \-\-stock NUM
+Update product stock atomically.
+.TP
+.B csv validate
+Validate CSV structure and numeric fields (exit 2 on violations).
+.TP
+Other commands are documented in the online README and docs/.
+.SH EXIT STATUS
+Commands return 0 on success and non-zero on failure. See docs/EXITCODES.md.

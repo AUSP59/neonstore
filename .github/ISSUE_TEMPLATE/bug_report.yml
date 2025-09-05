@@ -1,0 +1,16 @@
+name: Bug report
+description: Report a reproducible issue
+labels: [bug]
+body:
+  - type: textarea
+    attributes:
+      label: Description
+  - type: textarea
+    attributes:
+      label: Steps to Reproduce
+  - type: input
+    attributes:
+      label: Version / Commit
+  - type: textarea
+    attributes:
+      label: Logs

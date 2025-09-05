@@ -1,0 +1,86 @@
+{
+  "version": 6,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 21,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "dev-debug",
+      "generator": "Ninja",
+      "binaryDir": "build/debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "ENABLE_SANITIZERS": "ON",
+        "ENABLE_TSAN": "OFF",
+        "ENABLE_MSAN": "OFF"
+      }
+    },
+    {
+      "name": "dev-asan",
+      "inherits": "dev-debug",
+      "cacheVariables": {
+        "ENABLE_TSAN": "OFF",
+        "ENABLE_SANITIZERS": "ON"
+      }
+    },
+    {
+      "name": "dev-tsan",
+      "inherits": "dev-debug",
+      "cacheVariables": {
+        "ENABLE_TSAN": "ON",
+        "ENABLE_SANITIZERS": "OFF"
+      }
+    },
+    {
+      "name": "release",
+      "generator": "Ninja",
+      "binaryDir": "build/release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "ENABLE_LTO": "ON",
+        "ENABLE_HARDENING": "ON"
+      }
+    },
+    {
+      "name": "coverage",
+      "generator": "Ninja",
+      "binaryDir": "build/coverage",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "BUILD_COVERAGE": "ON"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "dev",
+      "configurePreset": "dev-debug"
+    },
+    {
+      "name": "rel",
+      "configurePreset": "release"
+    },
+    {
+      "name": "cov",
+      "configurePreset": "coverage"
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "ctest-dev",
+      "configurePreset": "dev-debug",
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "ctest-rel",
+      "configurePreset": "release",
+      "output": {
+        "outputOnFailure": true
+      }
+    }
+  ]
+}

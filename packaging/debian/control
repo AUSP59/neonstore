@@ -1,0 +1,13 @@
+Source: neonstoresystem
+Section: utils
+Priority: optional
+Maintainer: NeonStoreSystem Authors <security@neonstoresystem.org>
+Build-Depends: debhelper-compat (= 13), cmake, ninja-build, g++, pkg-config
+Standards-Version: 4.6.0
+Homepage: https://github.com/YOUR_ORG/neonstoresystem
+
+Package: neonstoresystem
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: World-class C++ store management CLI and library
+ A fast, portable C++20 CLI and library for product/order inventory.

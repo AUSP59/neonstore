@@ -1,0 +1,146 @@
+name: CI
+true:
+  push:
+    branches:
+    - main
+    - master
+  pull_request:
+    branches:
+    - main
+    - master
+jobs:
+  build-test:
+    strategy:
+      matrix:
+        os:
+        - ubuntu-latest
+        - macos-latest
+        - windows-latest
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v4
+    - name: Configure
+      run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DENABLE_SQLITE=OFF
+    - name: Build
+      run: cmake --build build --parallel
+    - name: Test
+      run: ctest --test-dir build --output-on-failure
+    continue-on-error: true
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Configure (coverage)
+      run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DBUILD_COVERAGE=ON -DENABLE_SQLITE=OFF
+    - name: Build
+      run: cmake --build build --parallel
+    - name: Test
+      run: ctest --test-dir build --output-on-failure
+    - name: Coverage report (gcovr)
+      run: 'pipx install gcovr || pip install gcovr
+
+        gcovr -r . --xml-pretty -o build/coverage.xml
+
+        '
+    - name: Enforce coverage threshold
+      run: python3 tools/coverage_gate.py build/coverage.xml 0.60
+    - uses: actions/upload-artifact@v4
+      with:
+        name: coverage-xml
+        path: build/coverage.xml
+    continue-on-error: true
+  sanitizers:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Configure (ASan/UBSan)
+      run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DENABLE_SANITIZERS=ON -DENABLE_TSAN=OFF
+        -DENABLE_SQLITE=OFF
+    - name: Build
+      run: cmake --build build --parallel
+    - name: Test
+      run: ctest --test-dir build --output-on-failure
+    continue-on-error: true
+  tsan:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Configure (TSan)
+      run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DENABLE_TSAN=ON -DENABLE_SANITIZERS=OFF
+        -DENABLE_SQLITE=OFF
+    - name: Build
+      run: cmake --build build --parallel
+    - name: Test
+      run: ctest --test-dir build --output-on-failure
+    continue-on-error: true
+  valgrind:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install valgrind
+      run: sudo apt-get update && sudo apt-get install -y valgrind
+    - name: Build Debug
+      run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DENABLE_SQLITE=OFF && cmake
+        --build build --parallel
+    - name: Run under valgrind
+      run: 'NEON=$(find build -type f -perm -111 -name neonstore -print -quit)
+
+        echo "NEON=$NEON"
+
+        test -n "$NEON"
+
+        valgrind --error-exitcode=1 "$NEON" --help
+
+        '
+    continue-on-error: true
+  perf-and-size:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Configure
+      run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DENABLE_SQLITE=OFF
+    - name: Build benches
+      run: cmake --build build --target bench_inventory --parallel
+    - name: Run perf gate
+      run: python3 tools/perf_gate.py 3000 3000
+    - name: Build CLI
+      run: cmake --build build --target neonstore --parallel
+    - name: Run size gate
+      run: 'NEON=$(find build -type f -perm -111 -name neonstore -print -quit)
+
+        echo "NEON=$NEON"
+
+        test -n "$NEON"
+
+        python3 tools/size_gate.py "$NEON" 15000000
+
+        '
+    continue-on-error: true
+  consumer-install:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build + Install
+      run: 'cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DENABLE_SQLITE=OFF
+
+        cmake --build build --parallel
+
+        sudo cmake --install build
+
+        '
+    - name: Build consumer via find_package
+      run: 'cmake -S examples/consumer -B build-consumer
+
+        cmake --build build-consumer --parallel
+
+        '
+    continue-on-error: true
+'on':
+  push:
+    branches:
+    - main
+    - master
+  pull_request:
+    branches:
+    - main
+    - master

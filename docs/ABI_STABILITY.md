@@ -1,0 +1,2 @@
+# ABI Stability
+We recommend `abi-dumper` and `abi-compliance-checker` to track ABI across releases for the shared library (`libneonstoresystem.so`). Provide old/new ABI dumps in CI for major releases and gate on incompatible changes unless bumping major version (SemVer).

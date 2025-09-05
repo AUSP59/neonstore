@@ -1,0 +1,2 @@
+# Packaging Guide
+Use CPack for TGZ/ZIP/DEB/RPM artifacts. See templates in `packaging/` for Debian, RPM, Homebrew, Winget, Chocolatey, Snap, and Flatpak. Replace placeholders and publish in your org registries.

@@ -1,0 +1,8 @@
+NEONSTORE_2.2 {
+  global:
+    neonstore_inventory_create;
+    neonstore_inventory_destroy;
+    neonstore_inventory_add;
+    neonstore_inventory_count;
+  local: *;
+};

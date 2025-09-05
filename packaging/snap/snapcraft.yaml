@@ -1,0 +1,17 @@
+name: neonstoresystem
+base: core22
+version: '1.0.0'
+summary: World-class C++ store management CLI and library
+description: |
+  A fast, portable C++20 CLI and library for product/order inventory.
+grade: stable
+confinement: strict
+
+parts:
+  neonstoresystem:
+    plugin: cmake
+    source: .
+    build-packages: [g++, cmake, ninja-build]
+apps:
+  neonstore:
+    command: usr/bin/neonstore

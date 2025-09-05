@@ -1,0 +1,4 @@
+# NeonStoreSystem sample config
+BACKEND=csv
+DATA_DIR=data
+DSN=neonstore.db

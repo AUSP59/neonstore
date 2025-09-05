@@ -1,0 +1,1 @@
+complete -c neonstore -f

@@ -1,0 +1,49 @@
+name: sbom
+true:
+  workflow_dispatch: null
+  push:
+    tags:
+    - v*.*.*
+jobs:
+  generate-sbom:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+    - uses: actions/checkout@v4
+    - name: Generate SBOM (Syft CycloneDX JSON)
+      uses: anchore/sbom-action@v0
+      with:
+        format: cyclonedx-json
+        output-file: sbom/sbom.cdx.json
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: sbom-cyclonedx
+        path: sbom/sbom.cdx.json
+    continue-on-error: true
+  attach-to-release:
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    steps:
+    - uses: actions/checkout@v4
+    - name: Generate SBOM (Syft CycloneDX JSON)
+      uses: anchore/sbom-action@v0
+      with:
+        format: cyclonedx-json
+        output-file: sbom/sbom.cdx.json
+    - uses: softprops/action-gh-release@v2
+      with:
+        files: sbom/sbom.cdx.json
+    continue-on-error: true
+'on':
+  push:
+    branches:
+    - main
+    - master
+  pull_request:
+    branches:
+    - main
+    - master
+permissions:
+  contents: write

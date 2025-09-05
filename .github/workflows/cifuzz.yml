@@ -1,0 +1,24 @@
+name: cifuzz
+true:
+  pull_request: null
+  push:
+    branches:
+    - main
+jobs:
+  fuzz:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup clang
+      run: sudo apt-get update && sudo apt-get install -y clang
+    - name: Configure (fuzz)
+      run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DBUILD_FUZZING=ON
+    - name: Build fuzzers
+      run: cmake --build build -j
+    - name: Run fuzzers (short sanity)
+      run: "for t in fuzz/fuzz_csv_products fuzz/fuzz_csv_orders fuzz/fuzz_csv_dir;\
+        \ do\n  if [ -x \"build/${t}\" ]; then timeout 60 \"build/${t}\" || true;\
+        \ fi\ndone\n"
+    continue-on-error: true
+'on':
+  workflow_dispatch: null

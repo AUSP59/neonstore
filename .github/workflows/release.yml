@@ -1,0 +1,45 @@
+name: release
+true:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Release version (e.g., 2.4.0)
+        required: true
+jobs:
+  build-and-package:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os:
+        - ubuntu-latest
+        - macos-latest
+        - windows-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Configure
+      run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF
+    - name: Build
+      run: cmake --build build --parallel
+    - name: Package
+      run: cmake --build build --target package
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: neonstore-${{ github.event.inputs.version }}-${{ runner.os }}
+        path: 'build/*.zip
+
+          build/*.deb
+
+          build/*.rpm
+
+          '
+    continue-on-error: true
+'on':
+  push:
+    branches:
+    - main
+    - master
+  pull_request:
+    branches:
+    - main
+    - master

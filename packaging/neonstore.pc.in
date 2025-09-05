@@ -1,0 +1,10 @@
+prefix=@CMAKE_INSTALL_PREFIX@
+exec_prefix=${prefix}
+libdir=@CMAKE_INSTALL_FULL_LIBDIR@
+includedir=@CMAKE_INSTALL_FULL_INCLUDEDIR@
+
+Name: NeonStoreSystem
+Description: Store management C++ library and CLI
+Version: @PROJECT_VERSION@
+Libs: -L${libdir} -lneonstore_lib
+Cflags: -I${includedir}
