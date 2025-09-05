@@ -21,7 +21,7 @@ jobs:
         touch docs/doxygen/html/.nojekyll
 
         '
-    - uses: actions/upload-pages-artifact@v3
+    - uses: actions/upload-pages-artifact@v4
       with:
         path: docs/doxygen/html
     continue-on-error: true
